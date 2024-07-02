@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to HAMI COIN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            height: 100vh; /* Full viewport height */
+            margin: 0;
+            background-color: #1E90FF; /* Dodger Blue background color */
+            color: black; /* Set text color to black */
+            position: relative; /* Relative positioning for absolute children */
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+            position: relative; /* Ensure container can hold absolute position elements */
+        }
+
+        .balance {
+            font-size: 36px; /* Increased font size */
+            color: black; /* Changed color to black */
+            padding: 10px; /* Added padding for better spacing */
+        }
+
+        .coin {
+            width: 150px; /* Increased width */
+            height: 150px; /* Increased height */
+            border: 2px solid rgba(0, 0, 0, 0.1); /* Soft border */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto; /* Center the coin */
+            margin-bottom: 20px;
+            cursor: pointer;
+            user-select: none;
+            background-color: #c0c0c0; /* Silver background color */
+            position: relative; /* Ensure position is relative for pseudo-elements */
+            overflow: hidden; /* Ensure the animation does not overflow */
+            text-align: center; /* Center text inside */
+            font-size: 16px; /* Adjust font size */
+            font-weight: bold; /* Make text bold */
+            text-transform: uppercase; /* Uppercase text */
+            transition: transform 0.2s ease-in-out; /* Smooth transition for transform */
+            background-image: url('https://img.cryptorank.io/coins/hami1711612049405.png'); /* Background image */
+            background-size: cover; /* Cover the entire background */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent the background image from repeating */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 12px 24px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
+
+        .coin::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0.3));
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .coin::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .coin.clicked {
+            transform: translateY(-10px); /* Move the coin upwards on click */
+        }
+
+        .coin-text {
+            position: relative; /* Ensure text is positioned relative to parent */
+            z-index: 3; /* Ensure text is above pseudo-elements */
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 20px;
+            width: 100%;
+            background-color: #4caf50; /* Green color for progress bar */
+            transition: width 0.2s;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .option {
+            padding: 10px 20px;
+            background-color: #28a745; /* Green background color for options */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .join-us {
+            margin-top: 20px;
+        }
+
+        .join-us a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffc107; /* Yellow background color for join us */
+            color: black; /* Text color for join us */
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .connect-wallet {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .connect-wallet a {
+            padding: 10px 20px;
+            background-color: #ffc107; /* Yellow background color */
+            color: black; /* Text color */
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="connect-wallet">
+            <a href="#">Connect Wallet</a>
+        </div>
+        <h1>Welcome to HAMI COIN</h1>
+        <div class="balance">
+            <p>Balance: <span id="tapCount">0</span></p>
+        </div>
+        <div id="coin" class="coin">
+            <div class="coin-text"></div>
+        </div>
+        <div class="progress-container">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <div class="options">
+            <a href="https://t.me/Hamster_kombat_bot/start?startapp=kentId7456694452" class="option" id="more">More</a>
+            <a href="#" class="option" id="help">Help</a>
+            <a href="#" class="option" id="boost">Boost</a>
+        </div>
+        <div class="join-us">
+            <a href="https://t.me/educational12_11" target="_blank">Join Us</a>
+        </div>
+    </div>
+    <script>
+        let balance = 0;
+        let maxTaps = 1000;
+
+        document.getElementById('coin').addEventListener('click', () => {
+            if (maxTaps > 0) {
+                balance++;
+                maxTaps--;
+
+                document.getElementById('tapCount').innerText = balance;
+                document.getElementById('progressBar').style.width = `${(maxTaps / 1000) * 100}%`;
+
+                document.getElementById('tapCount').style.color = 'black'; // Change color to black after increment
+                document.getElementById('tapCount').style.fontSize = '36px'; // Reset font size to default
+                
+                // Add class to move coin upwards
+                document.getElementById('coin').classList.add('clicked');
+
+                // Remove the class after 200ms to allow for animation
+                setTimeout(() => {
+                    document.getElementById('coin').classList.remove('clicked');
+                }, 200);
+            } else {
+                alert('No more taps available!');
+            }
+        });
+
+        document.getElementById('help').addEventListener('click', () => {
+            alert('Need help? Contact support@runcoin.com');
+        });
+
+        document.getElementById('boost').addEventListener('click', () => {
+            alert('Boost feature activated!');
+        });
+    </script>
+</body>
+</html>
